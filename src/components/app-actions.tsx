@@ -33,7 +33,6 @@ export function AppActions({ app, onDownload, onDownloadScreenshots }: AppAction
     }
   };
 
-
   const handleDownloadScreenshots = async () => {
     try {
       if (onDownloadScreenshots) {

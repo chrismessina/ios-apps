@@ -11,7 +11,7 @@ const execAsync = promisify(exec);
  */
 async function loginToAppleId(): Promise<void> {
   await execAsync(
-    `${IPATOOL_PATH} auth login -e "${preferences.appleId}" -p "${preferences.password}" --format json --non-interactive`
+    `${IPATOOL_PATH} auth login -e "${preferences.appleId}" -p "${preferences.password}" --format json --non-interactive`,
   );
   console.log("Successfully authenticated with Apple ID");
 }
