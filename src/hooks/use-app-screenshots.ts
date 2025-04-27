@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
-import { showToast, Toast } from '@raycast/api';
-import { AppDetails } from '../types';
-import { downloadScreenshots } from '../utils/itunes-api';
+import { useState, useCallback } from "react";
+import { showToast, Toast } from "@raycast/api";
+import { AppDetails } from "../types";
+import { downloadScreenshots } from "../utils/itunes-api";
 
 /**
  * Interface for the screenshot download state
@@ -38,12 +38,7 @@ export function useAppScreenshots() {
 
     try {
       // Use the downloadScreenshots function from itunes-api.ts
-      const downloadPath = await downloadScreenshots(
-        app.bundleId,
-        app.name,
-        app.version,
-        app.price
-      );
+      const downloadPath = await downloadScreenshots(app.bundleId, app.name, app.version, app.price);
 
       if (downloadPath) {
         setState({
@@ -53,16 +48,16 @@ export function useAppScreenshots() {
         });
         return downloadPath;
       } else {
-        throw new Error('Failed to download screenshots');
+        throw new Error("Failed to download screenshots");
       }
     } catch (error) {
-      console.error('Error in useAppScreenshots hook:', error);
+      console.error("Error in useAppScreenshots hook:", error);
       setState({
         isLoading: false,
         error: error instanceof Error ? error : new Error(String(error)),
         downloadPath: null,
       });
-      await showToast(Toast.Style.Failure, 'Failed to download screenshots', String(error));
+      await showToast(Toast.Style.Failure, "Failed to download screenshots", String(error));
       return null;
     }
   }, []);

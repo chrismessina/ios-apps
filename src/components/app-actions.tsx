@@ -37,28 +37,10 @@ export function AppActions({ app, onDownload, onDownloadScreenshots }: AppAction
 
   return (
     <ActionPanel.Section title="App Actions">
-      <Action 
-        title="Download App" 
-        icon={Icon.Download} 
-        onAction={handleDownload} 
-      />
-      <Action 
-        title="Download Screenshots" 
-        icon={Icon.Image} 
-        onAction={handleDownloadScreenshots} 
-      />
-      <Action.OpenInBrowser 
-        title="View in App Store" 
-        icon={Icon.AppWindow} 
-        url={appStoreUrl} 
-      />
-      {app.artistViewUrl && (
-        <Action.OpenInBrowser 
-          title="View Developer" 
-          icon={Icon.Person} 
-          url={app.artistViewUrl} 
-        />
-      )}
+      <Action title="Download App" icon={Icon.Download} onAction={handleDownload} />
+      <Action title="Download Screenshots" icon={Icon.Image} onAction={handleDownloadScreenshots} />
+      <Action.OpenInBrowser title="View in App Store" icon={Icon.AppWindow} url={appStoreUrl} />
+      {app.artistViewUrl && <Action.OpenInBrowser title="View Developer" icon={Icon.Person} url={app.artistViewUrl} />}
     </ActionPanel.Section>
   );
 }

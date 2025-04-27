@@ -169,21 +169,23 @@ export async function downloadScreenshots(
   bundleId: string,
   appName = "",
   appVersion = "",
-  price = "0"
+  price = "0",
 ): Promise<string | null> {
   try {
-    console.log(`[Screenshot Downloader] Starting screenshot download for bundleId: ${bundleId}, app: ${appName}, version: ${appVersion}`);
-    
+    console.log(
+      `[Screenshot Downloader] Starting screenshot download for bundleId: ${bundleId}, app: ${appName}, version: ${appVersion}`,
+    );
+
     // Show initial HUD
     await showHUD(`Downloading screenshots for ${appName || bundleId}...`, { clearRootSearch: true });
-    
+
     // First, get basic app details if we don't have them already
     let appDetails: AppDetails | null = null;
-    
+
     // Try to get app details from iTunes API
     console.log(`[Screenshot Downloader] Fetching app details for ${bundleId}`);
     const itunesData = await fetchITunesAppDetails(bundleId);
-    
+
     if (itunesData) {
       // Convert iTunes data to AppDetails
       appDetails = convertITunesResultToAppDetails(itunesData);
@@ -191,15 +193,15 @@ export async function downloadScreenshots(
       // If we couldn't get details by bundleId but have an app name, try searching
       console.log(`[Screenshot Downloader] Trying to find app by name: ${appName}`);
       const searchResults = await searchITunesApps(appName, 10);
-      
+
       // Find the exact match or use the first result
-      const matchingApp = searchResults.find(app => app.bundleId === bundleId) || searchResults[0];
-      
+      const matchingApp = searchResults.find((app) => app.bundleId === bundleId) || searchResults[0];
+
       if (matchingApp) {
         appDetails = convertITunesResultToAppDetails(matchingApp);
       }
     }
-    
+
     // If we still don't have app details, create a minimal object
     if (!appDetails) {
       console.log(`[Screenshot Downloader] Creating minimal app details for ${bundleId}`);
@@ -215,47 +217,51 @@ export async function downloadScreenshots(
         genres: [],
         size: "",
         contentRating: "",
-        artworkUrl60: undefined
+        artworkUrl60: undefined,
       };
     }
-    
+
     // Now use the scraper to get high-resolution screenshots from the App Store website
     console.log(`[Screenshot Downloader] Scraping App Store website for high-resolution screenshots`);
     const screenshots = await scrapeAppStoreScreenshots(appDetails);
-    
+
     if (screenshots.length === 0) {
       console.error(`[Screenshot Downloader] No screenshots found for ${bundleId}`);
-      await showToast(Toast.Style.Failure, "No screenshots found", `No screenshots available for ${appName || bundleId}`);
+      await showToast(
+        Toast.Style.Failure,
+        "No screenshots found",
+        `No screenshots available for ${appName || bundleId}`,
+      );
       return null;
     }
-    
+
     console.log(`[Screenshot Downloader] Found ${screenshots.length} screenshots for ${bundleId}`);
-    
+
     // Create a directory for the screenshots
     const downloadsDir = getDownloadsDirectory();
-    const sanitizedAppName = (appName || bundleId).replace(/[/\\?%*:|"<>]/g, '-');
-    const sanitizedVersion = appVersion.replace(/[/\\?%*:|"<>]/g, '-');
+    const sanitizedAppName = (appName || bundleId).replace(/[/\\?%*:|"<>]/g, "-");
+    const sanitizedVersion = appVersion.replace(/[/\\?%*:|"<>]/g, "-");
     const priceLabel = price === "0" ? "free" : `${price}usd`;
     const folderName = `${sanitizedAppName}_${sanitizedVersion}_${priceLabel}_screenshots_hires`;
     const screenshotsDir = path.join(downloadsDir, folderName);
-    
+
     // Create the directory if it doesn't exist
     if (!fs.existsSync(screenshotsDir)) {
       console.log(`[Screenshot Downloader] Creating screenshots directory: ${screenshotsDir}`);
       await mkdirAsync(screenshotsDir, { recursive: true });
     }
-    
+
     // Create device-specific directories
     const deviceDirs: { [key: string]: string } = {
-      iPhone: path.join(screenshotsDir, 'iPhone'),
-      iPad: path.join(screenshotsDir, 'iPad'),
-      Mac: path.join(screenshotsDir, 'Mac'),
-      AppleTV: path.join(screenshotsDir, 'AppleTV')
+      iPhone: path.join(screenshotsDir, "iPhone"),
+      iPad: path.join(screenshotsDir, "iPad"),
+      Mac: path.join(screenshotsDir, "Mac"),
+      AppleTV: path.join(screenshotsDir, "AppleTV"),
     };
-    
+
     // Group screenshots by device type to avoid creating empty directories
     const screenshotsByType: Record<string, ScreenshotInfo[]> = {};
-    
+
     // Initialize the device type groups
     for (const screenshot of screenshots) {
       if (!screenshotsByType[screenshot.type]) {
@@ -263,7 +269,7 @@ export async function downloadScreenshots(
       }
       screenshotsByType[screenshot.type].push(screenshot);
     }
-    
+
     // Only create directories for device types that have screenshots
     for (const [deviceType, deviceScreenshots] of Object.entries(screenshotsByType)) {
       if (deviceScreenshots.length > 0) {
@@ -273,55 +279,59 @@ export async function downloadScreenshots(
         }
       }
     }
-    
+
     // Download each screenshot
     await showHUD(`Downloading ${screenshots.length} high-resolution screenshots...`);
-    
+
     const downloadPromises = screenshots.map(async (screenshot) => {
       try {
         // Get the highest resolution URL
         const highResUrl = getHighestResolutionUrl(screenshot.url);
-        console.log(`[Screenshot Downloader] Downloading ${screenshot.type} screenshot ${screenshot.index + 1}: ${highResUrl}`);
-        
+        console.log(
+          `[Screenshot Downloader] Downloading ${screenshot.type} screenshot ${screenshot.index + 1}: ${highResUrl}`,
+        );
+
         // Fetch the image
         const response = await fetch(highResUrl);
         if (!response.ok) {
           console.error(`[Screenshot Downloader] Failed to download screenshot: HTTP ${response.status}`);
           return false;
         }
-        
+
         // Get the image data as buffer
         const imageBuffer = await response.buffer();
-        
+
         // Always use PNG for consistency and best quality
-        const fileExtension = 'png';
-        
+        const fileExtension = "png";
+
         // Save the image to the appropriate device directory
         const deviceDir = deviceDirs[screenshot.type];
         const fileName = `${screenshot.type.toLowerCase()}_${screenshot.index + 1}.${fileExtension}`;
         const filePath = path.join(deviceDir, fileName);
-        
+
         await writeFileAsync(filePath, imageBuffer);
-        console.log(`[Screenshot Downloader] Saved ${screenshot.type} screenshot ${screenshot.index + 1} to ${filePath}`);
+        console.log(
+          `[Screenshot Downloader] Saved ${screenshot.type} screenshot ${screenshot.index + 1} to ${filePath}`,
+        );
         return true;
       } catch (error) {
         console.error(`[Screenshot Downloader] Error downloading screenshot:`, error);
         return false;
       }
     });
-    
+
     // Wait for all downloads to complete
     const results = await Promise.all(downloadPromises);
-    const successCount = results.filter(result => result).length;
-    
+    const successCount = results.filter((result) => result).length;
+
     if (successCount === 0) {
       console.error(`[Screenshot Downloader] Failed to download any screenshots for ${bundleId}`);
       await showToast(Toast.Style.Failure, "Download failed", "Failed to download any screenshots");
       return null;
     }
-    
+
     // Create a README file with information about the app and screenshots
-    const readmePath = path.join(screenshotsDir, 'README.txt');
+    const readmePath = path.join(screenshotsDir, "README.txt");
     const readmeContent = [
       `App Store Screenshots (High Resolution)`,
       `=====================================`,
@@ -336,23 +346,25 @@ export async function downloadScreenshots(
       `Organization:`,
       ...Object.entries(screenshotsByType)
         .filter(([, screenshots]) => screenshots.length > 0)
-        .map(([deviceType, screenshots]) => 
-          `- ${deviceType}/: Contains ${screenshots.length} ${deviceType} screenshots`
+        .map(
+          ([deviceType, screenshots]) => `- ${deviceType}/: Contains ${screenshots.length} ${deviceType} screenshots`,
         ),
       ``,
       `These screenshots were obtained at the highest available resolution from the App Store.`,
-      `They may be used for reference purposes only and are subject to Apple's copyright.`
-    ].join('\n');
-    
+      `They may be used for reference purposes only and are subject to Apple's copyright.`,
+    ].join("\n");
+
     await writeFileAsync(readmePath, readmeContent);
-    
-    console.log(`[Screenshot Downloader] Successfully downloaded ${successCount}/${screenshots.length} screenshots for ${bundleId}`);
-    await showToast(
-      Toast.Style.Success, 
-      "High-resolution screenshots downloaded", 
-      `${successCount} screenshots saved to ${folderName}`
+
+    console.log(
+      `[Screenshot Downloader] Successfully downloaded ${successCount}/${screenshots.length} screenshots for ${bundleId}`,
     );
-    
+    await showToast(
+      Toast.Style.Success,
+      "High-resolution screenshots downloaded",
+      `${successCount} screenshots saved to ${folderName}`,
+    );
+
     return screenshotsDir;
   } catch (error) {
     console.error(`[Screenshot Downloader] Error downloading screenshots for ${bundleId}:`, error);
