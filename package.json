@@ -76,23 +76,6 @@
   ],
   "preferences": [
     {
-      "name": "downloadPath",
-      "title": "Download location",
-      "description": "Path to save downloaded app files and screenshots",
-      "type": "directory",
-      "default": "~/Downloads",
-      "required": false
-    },
-    {
-      "name": "enableExperimentalAppDownloads",
-      "title": "Experimental Settings",
-      "description": "Note: This feature may not work due to recent changes in Apple's API.",
-      "type": "checkbox",
-      "label": "Enable App Downloads",
-      "default": false,
-      "required": false
-    },
-    {
       "name": "appleId",
       "title": "Apple ID Email",
       "description": "Your Apple ID email for authentication",
@@ -104,6 +87,14 @@
       "title": "Apple ID Password",
       "description": "Your Apple ID password for authentication",
       "type": "password",
+      "required": false
+    },
+    {
+      "name": "downloadPath",
+      "title": "Download location",
+      "description": "Path to save downloaded app files and screenshots",
+      "type": "directory",
+      "default": "~/Downloads",
       "required": false
     },
     {
@@ -120,6 +111,15 @@
       "description": "Path to the ipatool executable. You can enter `which ipatool` in terminal to find its path.",
       "type": "textfield",
       "default": "/opt/homebrew/bin/ipatool",
+      "required": false
+    },
+    {
+      "name": "enableExperimentalAppDownloads",
+      "title": "Experimental Settings",
+      "description": "Note: This feature may not work due to recent changes in Apple's API.",
+      "type": "checkbox",
+      "label": "Enable App Downloads",
+      "default": false,
       "required": false
     }
   ],
