@@ -1,7 +1,8 @@
-import { downloadIPA, searchApps } from "../ipatool";
 import path from "path";
+import { getPreferenceValues } from "@raycast/api";
+import { downloadIPA, searchApps } from "../ipatool";
+import { ExtensionPreferences } from "../types";
 
-// No initial confirmation - we'll confirm only during the actual download process
 
 type Input = {
   /**
@@ -15,6 +16,14 @@ type Input = {
  */
 export default async function downloadIosApp(input: Input) {
   console.log(`[download-app tool] Starting download for app: "${input.query}"`);
+
+  // Check if experimental app downloads are enabled
+  const preferences = getPreferenceValues<ExtensionPreferences>();
+  const isExperimentalDownloadsEnabled = preferences.enableExperimentalAppDownloads || false;
+
+  if (!isExperimentalDownloadsEnabled) {
+    throw new Error("App downloads are disabled. Enable experimental app downloads to use this feature.");
+  }
 
   try {
     let bundleId = "";

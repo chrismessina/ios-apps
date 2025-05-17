@@ -39,6 +39,7 @@ export interface ExtensionPreferences {
   downloadPath?: string;
   homebrewPath?: string;
   ipatoolPath?: string;
+  enableExperimentalAppDownloads?: boolean;
 }
 
 export interface ITunesResponse {

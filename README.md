@@ -1,32 +1,19 @@
 # iOS App Search
 
-<i>Search, download, and view iOS apps from the App Store.</i>
+Search, view, and download¹ iOS apps from the App Store.
 
 <img src="./metadata/screenshot-1.png" width="700">
 <img src="./metadata/screenshot-2.png" width="700">
 <img src="./metadata/screenshot-3.png" width="700">
 <img src="./metadata/screenshot-4.png" width="700">
 
-
 ## Features
 
 - **Search**: Quickly search for iOS apps by name, developer, or bundle ID
 - **Rich App Details**: View comprehensive app information including ratings, screenshots, and metadata
-- **Download**: Download IPA files directly to your computer
+- **Download¹**: Download IPA files directly to your computer
 - **Copy Actions**: Easily copy app metadata like bundle ID, version, and App Store URLs
 - **Raycast AI Tools**: Use AI commands to search, get details, and download iOS apps
-
-## Requirements
-
-### ipatool
-
-This extension requires [ipatool](https://github.com/majd/ipatool), a command-line tool for interacting with Apple's App Store. You can install it via Homebrew:
-
-```bash
-brew install ipatool
-```
-
-By default, the extension looks for ipatool at `/opt/homebrew/bin/ipatool`. If your installation is in a different location, you can specify the path in the extension preferences.
 
 ## How It Works
 
@@ -44,14 +31,59 @@ The extension uses a dual-source approach to provide comprehensive app informati
 
 This combination ensures you get the most complete and up-to-date information about iOS apps.
 
+## Requirements
+
+### Homebrew
+
+This extension requires [Homebrew](https://brew.sh), a package manager for macOS. You can install it via the following command:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### ipatool
+
+Once you have Homebrew installed, install [ipatool](https://github.com/majd/ipatool), a command-line tool for interacting with Apple's App Store using this command:
+
+```bash
+brew install ipatool
+```
+
+By default, the extension looks for `ipatool` at `/opt/homebrew/bin/ipatool`. If your installation is in a different location, you can specify the path in the extension preferences.
+
 ### Apple ID Authentication
 
-To download apps from the App Store, you need to authenticate with your Apple ID. The extension handles this securely through ipatool:
+This extension requires you to authenticate with your Apple ID in order to search and download apps from the App Store. The authentication process is handled securely through `ipatool`:
 
 - Your Apple ID credentials are never stored within the Raycast extension
 - Authentication is handled directly by ipatool, which securely stores credentials in your system's keychain
 
-## Raycast AI Tools
+## About App Downloads and Screenshots
+
+Downloaded apps are saved as IPA files to your specified downloads directory (defaults to ~/Downloads). The files are automatically renamed to a user-friendly format: `{App Name} {Version}.ipa`.
+
+Screenshots are downloaded at the highest resolution and saved to the downloads directory.
+
+**¹ Downloading apps [recently broke](https://github.com/majd/ipatool/issues/357) due to an upstream change in the App Store API. While the community pursues a fix, the download function has been put behind an Experimental checkbox in the extension preferences. Enable Experimental App Downloads to try your luck!**
+
+## Privacy
+
+This extension:
+
+- Does not collect or transmit any personal data
+- Only communicates with Apple's servers via the `ipatool` CLI and iTunes API
+- Stores no credentials within the extension itself
+
+### Authentication Features
+
+- Two-factor authentication is fully supported
+- The extension automatically detects if you're already authenticated
+
+When you first attempt to search or download an app¹, you'll be prompted to authenticate if needed. After successful authentication, you shouldn't have to re-authenticate for future operations.
+
+---
+
+## About Raycast AI Tools
 
 This extension provides several AI tools that can be used with Raycast AI to enhance your workflow:
 
@@ -59,11 +91,12 @@ This extension provides several AI tools that can be used with Raycast AI to enh
 
 Search for iOS apps on the App Store by name or keyword.
 
-```
-Search iOS Apps "Spotify"
+```bash
+Search @ios-apps Spotify
 ```
 
 Options:
+
 - `query`: The search query for finding iOS apps (required)
 - `limit`: Maximum number of results to return (optional, default: 10, max: 20)
 
@@ -71,51 +104,35 @@ Options:
 
 Get detailed information about an iOS app by name or search term.
 
-```
-Get iOS App Details "Airbnb"
+```bash
+Get @ios-apps Airbnb
 ```
 
 Options:
+
 - `query`: The name or search term for the iOS app (required)
 
-### Download iOS App
+### Download iOS App¹
 
 Download an iOS app directly to your computer.
 
-```
-Download iOS App "Instagram"
+```bash
+Download @ios-apps Instagram
 ```
 
 Options:
+
 - `query`: The name or search term for the iOS app (required)
 
 The download tool will search for the app, retrieve its details, and download the IPA file to your specified download directory.
-
-### Authentication Features
-
-- Two-factor authentication is fully supported
-- The extension automatically detects if you're already authenticated
-
-When you first attempt to search or download an app, you'll be prompted to authenticate if needed. After successful authentication, your session will be remembered for future operations.
-
-### App Downloads
-
-Downloaded apps are saved as IPA files to your specified downloads directory (defaults to ~/Downloads). The files are automatically renamed to a user-friendly format: `{App Name} {Version}.ipa`.
-
-## Privacy
-
-This extension:
-- Does not collect or transmit any personal data
-- Only communicates with Apple's servers via the ipatool CLI and iTunes API
-- Stores no credentials within the extension itself
 
 ## Troubleshooting
 
 ### Common Issues
 
 - **Authentication Failures**: If you're having trouble authenticating, try running `ipatool auth login` directly in your terminal
-- **Download Errors**: Make sure you have sufficient disk space and permissions to write to your downloads directory
-- **Search Not Working**: Verify that ipatool is correctly installed and accessible from the path specified in preferences
+- **Download Errors**: Make sure you have sufficient disk space and permissions to write to your downloads directory. Since downloads aren't currently supported, you can disabled Experimental App Downloads in the extension preferences.
+- **Search Not Working**: Verify that `ipatool` is correctly installed and accessible from the path specified in preferences
 
 ## Credits
 

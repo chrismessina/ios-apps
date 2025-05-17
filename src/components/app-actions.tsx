@@ -1,6 +1,6 @@
-import { ActionPanel, Action, Icon } from "@raycast/api";
+import { ActionPanel, Action, Icon, getPreferenceValues } from "@raycast/api";
 import { showFailureToast } from "@raycast/utils";
-import { AppDetails } from "../types";
+import { AppDetails, ExtensionPreferences } from "../types";
 import { downloadIPA } from "../ipatool";
 import { downloadScreenshots } from "../utils/itunes-api";
 
@@ -14,6 +14,10 @@ interface AppActionsProps {
  * Reusable component for app-related actions
  */
 export function AppActions({ app, onDownload, onDownloadScreenshots }: AppActionsProps) {
+  // Get preferences to check if experimental app downloads are enabled
+  const preferences = getPreferenceValues<ExtensionPreferences>();
+  const isExperimentalDownloadsEnabled = preferences.enableExperimentalAppDownloads || false;
+
   // Create a fallback App Store URL if trackViewUrl is not available
   const appStoreUrl = app.trackViewUrl || (app.id ? `https://apps.apple.com/app/id${app.id}` : undefined);
 
@@ -50,7 +54,7 @@ export function AppActions({ app, onDownload, onDownloadScreenshots }: AppAction
 
   return (
     <ActionPanel.Section title="App Actions">
-      <Action title="Download App" icon={Icon.Download} onAction={handleDownload} />
+      {isExperimentalDownloadsEnabled && <Action title="Download App" icon={Icon.Download} onAction={handleDownload} />}
       <Action title="Download Screenshots" icon={Icon.Image} onAction={handleDownloadScreenshots} />
       {appStoreUrl && <Action.OpenInBrowser title="View in App Store" icon={Icon.AppWindow} url={appStoreUrl} />}
       {app.artistViewUrl && <Action.OpenInBrowser title="View Developer" icon={Icon.Person} url={app.artistViewUrl} />}

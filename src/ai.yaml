@@ -1,0 +1,136 @@
+instructions: |
+  You are an AI assistant for iOS Apps, a Raycast extension for searching and managing iOS applications. When responding to queries about iOS apps, follow these guidelines:
+
+  # Tool Usage Guidelines:
+  1. Use search-apps when the user is looking for apps by name or category
+  2. Use get-app-details when the user asks for specific information about an app
+  3. Use download-app when the user wants to download an app
+  4. Be concise and helpful in your responses
+
+evals:
+  - input: "@ios-apps search for Twitter"
+    mocks:
+      search-apps: |
+        Here are iOS apps matching "Twitter":
+
+        - **X**
+          Developer: X Corp.
+          Category: Social Networking
+          Rating: 4.5/5 (2.3M reviews)
+          Price: Free
+          [View on App Store](https://apps.apple.com/us/app/x/id333903271)
+
+        - **Threads**
+          Developer: Instagram, Inc.
+          Category: Social Networking
+          Rating: 4.2/5 (245K reviews)
+          Price: Free
+          [View on App Store](https://apps.apple.com/us/app/threads/id6446901002)
+
+        - **Bluesky Social**
+          Developer: Bluesky PBC
+          Category: Social Networking
+          Rating: 4.6/5 (42K reviews)
+          Price: Free
+          [View on App Store](https://apps.apple.com/us/app/bluesky-social/id6444370199)
+    expected:
+      - callsTool:
+          name: "search-apps"
+
+  - input: "@ios-apps tell me about Minecraft"
+    mocks:
+      get-app-details: |
+        # Minecraft
+
+        **Developer**: Mojang  
+        **Category**: Games  
+        **Size**: 456.8 MB  
+        **Age Rating**: 9+  
+        **Price**: $6.99  
+        **Rating**: ★★★★★ (4.8) based on 1.2M reviews
+
+        **Version**: 1.20.51  
+        **Last Updated**: March 5, 2025
+
+        **Description**:  
+        Explore infinite worlds and build everything from the simplest of homes to the grandest of castles. Create, explore and survive alone or with friends on mobile devices or Windows 10.
+
+        **What's New in the Latest Version**:  
+        - Added new biomes: Cherry Grove and Bamboo Jungle  
+        - New mobs: Camels and Sniffers  
+        - Performance improvements and bug fixes
+
+        **Screenshots**:  
+        [View Screenshots on App Store]
+
+        **Links**:  
+        - [View on App Store](https://apps.apple.com/us/app/minecraft/id479516143)  
+        - [Developer Website](https://www.minecraft.net/)
+    expected:
+      - callsTool:
+          name: "get-app-details"
+
+  - input: "@ios-apps download Spotify"
+    mocks:
+      download-app: |
+        Downloading Spotify...
+
+        App found: Spotify - Music and Podcasts  
+        Developer: Spotify AB  
+        Bundle ID: com.spotify.client
+
+        Download started to ~/Downloads/Spotify.ipa  
+        Download completed successfully!
+
+        You can install this app using:  
+        1. Sideloadly (https://sideloadly.io/)  
+        2. AltStore (https://altstore.io/)  
+        3. Apple Configurator 2 (for developers)
+
+        The IPA file is located at: ~/Downloads/Spotify.ipa
+    expected:
+      - callsTool:
+          name: "download-app"
+
+  - input: "@ios-apps search for games with limit 5"
+    mocks:
+      search-apps: |
+        Here are top iOS games:
+
+        - **Roblox**
+          Developer: Roblox Corporation
+          Category: Games
+          Rating: 4.4/5 (3.8M reviews)
+          Price: Free (In-App Purchases)
+          [View on App Store](https://apps.apple.com/us/app/roblox/id431946152)
+
+        - **Minecraft**
+          Developer: Mojang
+          Category: Games
+          Rating: 4.8/5 (1.2M reviews)
+          Price: $6.99
+          [View on App Store](https://apps.apple.com/us/app/minecraft/id479516143)
+
+        - **Genshin Impact**
+          Developer: miHoYo Limited
+          Category: Games
+          Rating: 4.7/5 (278K reviews)
+          Price: Free (In-App Purchases)
+          [View on App Store](https://apps.apple.com/us/app/genshin-impact/id1517783697)
+
+        - **Candy Crush Saga**
+          Developer: King
+          Category: Games
+          Rating: 4.7/5 (1.5M reviews)
+          Price: Free (In-App Purchases)
+          [View on App Store](https://apps.apple.com/us/app/candy-crush-saga/id553834731)
+
+        - **Among Us!**
+          Developer: InnerSloth LLC
+          Category: Games
+          Rating: 4.3/5 (635K reviews)
+          Price: Free (In-App Purchases)
+          [View on App Store](https://apps.apple.com/us/app/among-us/id1351168404)
+    expected:
+      - callsTool:
+          name: "search-apps"

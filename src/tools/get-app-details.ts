@@ -2,8 +2,6 @@ import { getAppDetails, searchApps } from "../ipatool";
 import { formatPrice } from "../utils/paths";
 import { formatDate } from "../utils/common";
 
-// No initial confirmation - details lookup will execute immediately
-
 type Input = {
   /**
    * The name or search term for the iOS app

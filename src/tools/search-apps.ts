@@ -1,8 +1,6 @@
 import { searchApps } from "../ipatool";
 import { enrichAppDetails } from "../utils/itunes-api";
 
-// No initial confirmation - search will execute immediately
-
 type Input = {
   /**
    * The search query for finding iOS apps

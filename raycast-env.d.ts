@@ -8,12 +8,14 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** Apple ID - Your Apple ID email for authentication */
-  "appleId": string,
-  /** Password - Your Apple ID password */
-  "password": string,
-  /** Download Path - Path to download app files */
+  /** Download location - Path to save downloaded app files and screenshots */
   "downloadPath": string,
+  /** Experimental Settings - Note: This feature may not work due to recent changes in Apple's API. */
+  "enableExperimentalAppDownloads": boolean,
+  /** Apple ID Email - Your Apple ID email for authentication */
+  "appleId"?: string,
+  /** Apple ID Password - Your Apple ID password for authentication */
+  "password"?: string,
   /** Homebrew Path - Path to the Homebrew executable. You can enter `which brew` in terminal to find its path. */
   "homebrewPath": string,
   /** ipatool Path - Path to the ipatool executable. You can enter `which ipatool` in terminal to find its path. */
