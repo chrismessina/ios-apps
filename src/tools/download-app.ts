@@ -3,7 +3,6 @@ import { getPreferenceValues } from "@raycast/api";
 import { downloadIPA, searchApps } from "../ipatool";
 import { ExtensionPreferences } from "../types";
 
-
 type Input = {
   /**
    * The name or search term for the iOS app
