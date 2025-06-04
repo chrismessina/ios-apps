@@ -8,18 +8,18 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** Download location - Path to save downloaded app files and screenshots */
-  "downloadPath": string,
-  /** Experimental Settings - Note: This feature may not work due to recent changes in Apple's API. */
-  "enableExperimentalAppDownloads": boolean,
   /** Apple ID Email - Your Apple ID email for authentication */
   "appleId"?: string,
   /** Apple ID Password - Your Apple ID password for authentication */
   "password"?: string,
+  /** Download location - Path to save downloaded app files and screenshots */
+  "downloadPath": string,
   /** Homebrew Path - Path to the Homebrew executable. You can enter `which brew` in terminal to find its path. */
   "homebrewPath": string,
   /** ipatool Path - Path to the ipatool executable. You can enter `which ipatool` in terminal to find its path. */
-  "ipatoolPath": string
+  "ipatoolPath": string,
+  /** Experimental Settings - Note: This feature may not work due to recent changes in Apple's API. */
+  "enableExperimentalAppDownloads": boolean
 }
 
 /** Preferences accessible in all the extension's commands */
