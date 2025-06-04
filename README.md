@@ -64,8 +64,6 @@ Downloaded apps are saved as IPA files to your specified downloads directory (de
 
 Screenshots are downloaded at the highest resolution and saved to the downloads directory.
 
-**¹ Downloading apps [recently broke](https://github.com/majd/ipatool/issues/357) due to an upstream change in the App Store API. While the community pursues a fix, the download function has been put behind an Experimental checkbox in the extension preferences. Enable Experimental App Downloads to try your luck!**
-
 ## Privacy
 
 This extension:
