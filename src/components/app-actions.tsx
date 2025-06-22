@@ -54,10 +54,36 @@ export function AppActions({ app, onDownload, onDownloadScreenshots }: AppAction
 
   return (
     <ActionPanel.Section title="App Actions">
-      {isExperimentalDownloadsEnabled && <Action title="Download App" icon={Icon.Download} onAction={handleDownload} />}
-      <Action title="Download Screenshots" icon={Icon.Image} onAction={handleDownloadScreenshots} />
-      {appStoreUrl && <Action.OpenInBrowser title="View in App Store" icon={Icon.AppWindow} url={appStoreUrl} />}
-      {app.artistViewUrl && <Action.OpenInBrowser title="View Developer" icon={Icon.Person} url={app.artistViewUrl} />}
+      {isExperimentalDownloadsEnabled && (
+        <Action
+          title="Download App"
+          icon={Icon.Download}
+          onAction={handleDownload}
+          shortcut={{ modifiers: ["cmd"], key: "d" }}
+        />
+      )}
+      <Action
+        title="Download Screenshots"
+        icon={Icon.Image}
+        onAction={handleDownloadScreenshots}
+        shortcut={{ modifiers: ["cmd", "shift"], key: "s" }}
+      />
+      {appStoreUrl && (
+        <Action.OpenInBrowser
+          title="View in App Store"
+          icon={Icon.AppWindow}
+          url={appStoreUrl}
+          shortcut={{ modifiers: ["cmd"], key: "o" }}
+        />
+      )}
+      {app.artistViewUrl && (
+        <Action.OpenInBrowser
+          title="View Developer"
+          icon={Icon.Person}
+          url={app.artistViewUrl}
+          shortcut={{ modifiers: ["cmd", "opt"], key: "v" }}
+        />
+      )}
     </ActionPanel.Section>
   );
 }
