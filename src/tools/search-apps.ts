@@ -1,7 +1,7 @@
 import { searchApps } from "../ipatool";
 import { enrichAppDetails } from "../utils/itunes-api";
 
-type Input = {
+export type Input = {
   /**
    * The search query for finding iOS apps
    */

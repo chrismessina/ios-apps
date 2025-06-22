@@ -16,7 +16,7 @@ interface AppActionsProps {
 export function AppActions({ app, onDownload, onDownloadScreenshots }: AppActionsProps) {
   // Get preferences to check if experimental app downloads are enabled
   const preferences = getPreferenceValues<ExtensionPreferences>();
-  const isExperimentalDownloadsEnabled = preferences.enableExperimentalAppDownloads || false;
+  const isExperimentalDownloadsEnabled = preferences.enableAppDownloads || false;
 
   // Create a fallback App Store URL if trackViewUrl is not available
   const appStoreUrl = app.trackViewUrl || (app.id ? `https://apps.apple.com/app/id${app.id}` : undefined);
@@ -59,7 +59,7 @@ export function AppActions({ app, onDownload, onDownloadScreenshots }: AppAction
           title="Download App"
           icon={Icon.Download}
           onAction={handleDownload}
-          shortcut={{ modifiers: ["cmd"], key: "d" }}
+          shortcut={{ modifiers: ["cmd"], key: "s" }}
         />
       )}
       <Action

@@ -2,7 +2,7 @@ import { getAppDetails, searchApps } from "../ipatool";
 import { formatPrice } from "../utils/paths";
 import { formatDate } from "../utils/common";
 
-type Input = {
+export type Input = {
   /**
    * The name or search term for the iOS app
    */

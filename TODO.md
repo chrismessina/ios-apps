@@ -1,5 +1,5 @@
 # TODOs
 
-- [ ] Make download functionality "Experimental" and add a user preference to enable it
+- [X] Make download functionality optional and add a user preference to enable it
+- [X] Move AI evals to ai.yaml
 - [ ] Allow app searching without triggering auth
-- [ ] Move AI evals to ai.yaml

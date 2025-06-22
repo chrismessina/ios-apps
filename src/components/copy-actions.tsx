@@ -20,35 +20,28 @@ export function CopyActions({ app }: CopyActionsProps) {
 
   return (
     <ActionPanel.Section title="Copy">
-      <Action
-        title="Copy App Name"
-        icon={Icon.Clipboard}
-        shortcut={{ modifiers: ["cmd"], key: "n" }}
-        onAction={() => copyToClipboard(app.name, "App Name")}
-      />
+      <Action title="Copy App Name" icon={Icon.Clipboard} onAction={() => copyToClipboard(app.name, "App Name")} />
       {app.version && (
         <Action
           title="Copy Version"
           icon={Icon.Clipboard}
-          shortcut={{ modifiers: ["cmd"], key: "v" }}
           onAction={() => copyToClipboard(app.version, "App Version")}
         />
       )}
       <Action
         title="Copy Bundle Id"
         icon={Icon.Clipboard}
-        shortcut={{ modifiers: ["cmd"], key: "b" }}
         onAction={() => copyToClipboard(app.bundleId, "Bundle Id")}
       />
       <Action
         title="Copy Developer"
         icon={Icon.Clipboard}
-        shortcut={{ modifiers: ["cmd"], key: "d" }}
         onAction={() => copyToClipboard(app.sellerName || "Unknown Developer", "Developer")}
       />
       <Action
         title="Copy App Store URL"
         icon={Icon.Link}
+        shortcut={{ modifiers: ["cmd"], key: "c" }}
         onAction={() => copyToClipboard(appStoreUrl, "App Store URL")}
       />
       {app.artistViewUrl && (

@@ -1,17 +1,18 @@
 # iOS App Search
 
-Search, view, and download¹ iOS apps from the App Store.
+Search, view, and download iOS apps and screenshots from the App Store.
 
 <img src="./metadata/screenshot-1.png" width="700">
 <img src="./metadata/screenshot-2.png" width="700">
 <img src="./metadata/screenshot-3.png" width="700">
 <img src="./metadata/screenshot-4.png" width="700">
+<img src="./metadata/screenshot-5.png" width="700">
 
 ## Features
 
 - **Search**: Quickly search for iOS apps by name, developer, or bundle ID
 - **Rich App Details**: View comprehensive app information including ratings, screenshots, and metadata
-- **Download¹**: Download IPA files directly to your computer
+- **Download**: Download IPA files directly to your computer
 - **Copy Actions**: Easily copy app metadata like bundle ID, version, and App Store URLs
 - **Raycast AI Tools**: Use AI commands to search, get details, and download iOS apps
 
@@ -77,7 +78,7 @@ This extension:
 - Two-factor authentication is fully supported
 - The extension automatically detects if you're already authenticated
 
-When you first attempt to search or download an app¹, you'll be prompted to authenticate if needed. After successful authentication, you shouldn't have to re-authenticate for future operations.
+When you first attempt to search or download an app, you'll be prompted to authenticate if needed. After successful authentication, you shouldn't have to re-authenticate for future operations.
 
 ---
 
@@ -110,7 +111,7 @@ Options:
 
 - `query`: The name or search term for the iOS app (required)
 
-### Download iOS App¹
+### Download iOS App
 
 Download an iOS app directly to your computer.
 
